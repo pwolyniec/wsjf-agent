@@ -5,13 +5,13 @@ def rank(df: pd.DataFrame, scores: list[dict]) -> pd.DataFrame:
     scores_df = pd.DataFrame(scores)
     scores_df["id"] = scores_df["id"].astype(str)
 
-    merged = df.merge(scores_df, on="id", how="left")
+    # Drop overlapping WSJF columns from input so scored values take precedence
+    score_cols = {"business_value", "time_criticality", "risk_reduction", "job_size",
+                  "confidence", "rationale"}
+    drop_cols = [c for c in df.columns if c in score_cols]
+    df_clean = df.drop(columns=drop_cols)
 
-    # Use pre-existing columns if provided in source data
-    for col in ["business_value", "time_criticality", "risk_reduction", "job_size"]:
-        src_col = f"{col}_src"
-        if src_col in merged.columns:
-            merged[col] = merged[src_col].combine_first(merged[col])
+    merged = df_clean.merge(scores_df, on="id", how="left")
 
     merged["cod"] = (
         merged["business_value"] +

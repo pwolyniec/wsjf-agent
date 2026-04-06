@@ -8,8 +8,12 @@ from pathlib import Path
 REQUIRED_COLS = {"id", "name", "description"}
 COL_ALIASES = {
     "title": "name", "summary": "name", "story": "name",
+    "feature_name": "name",
     "details": "description", "body": "description", "acceptance_criteria": "description",
     "ticket": "id", "key": "id", "item_id": "id",
+    "feature_id": "id",
+    "job_duration": "job_size",
+    "risk_reduction_/_opportunity_enablement": "risk_reduction",
 }
 
 def ingest(source: str) -> pd.DataFrame:
