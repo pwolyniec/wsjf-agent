@@ -3,13 +3,9 @@ WSJF Backlog Prioritization Agent
 Usage:
   python agent.py --input path/or/url [--output-dir output/]
 """
-import argparse, json, sys
+import argparse
 from pathlib import Path
 from datetime import datetime
-from dotenv import load_dotenv
-
-load_dotenv()
-
 from tools.ingest import ingest
 from tools.score import score_items
 from tools.rank import rank
